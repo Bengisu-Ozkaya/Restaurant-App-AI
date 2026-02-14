@@ -32,12 +32,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.restaurantappai.ui.theme.RestaurantAppAITheme
 
-class ForgotPasswordActivity : ComponentActivity() {
+class ResetPasswordActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -46,11 +47,11 @@ class ForgotPasswordActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = Color.White
                 ) {
-                    ForgotPasswordScreen(
+                    ResetPasswordScreen(
                         onSubmitClick = {
-                            startActivity(Intent(this, ResetPasswordActivity::class.java))
-                        },
-                        onBackClick = { finish() }
+                            startActivity(Intent(this, LoginActivity::class.java))
+                            finish()
+                        }
                     )
                 }
             }
@@ -59,11 +60,11 @@ class ForgotPasswordActivity : ComponentActivity() {
 }
 
 @Composable
-fun ForgotPasswordScreen(
-    onSubmitClick: () -> Unit = {},
-    onBackClick: () -> Unit = {}
+fun ResetPasswordScreen(
+    onSubmitClick: () -> Unit = {}
 ) {
-    var emailOrMobile by remember { mutableStateOf("") }
+    var newPassword by remember { mutableStateOf("") }
+    var confirmPassword by remember { mutableStateOf("") }
 
     Column(
         modifier = Modifier
@@ -74,13 +75,13 @@ fun ForgotPasswordScreen(
     ) {
         Spacer(modifier = Modifier.height(40.dp))
 
-        // Üst görsel - forgot password illustrator
+        // Üst görsel - reset password illustrator (TV + indirme ikonu)
         Image(
-            painter = painterResource(id = R.drawable.forgotpassword_illustrator),
+            painter = painterResource(id = R.drawable.resetpassword_illustrator),
             contentDescription = null,
             modifier = Modifier
                 .fillMaxWidth()
-                .height(240.dp),
+                .height(220.dp),
             contentScale = ContentScale.Fit
         )
 
@@ -88,32 +89,21 @@ fun ForgotPasswordScreen(
 
         // Başlık
         Text(
-            text = "Forgot Password?",
+            text = "Reset Password",
             fontSize = 28.sp,
             fontWeight = FontWeight.Bold,
             color = Color.Black,
             modifier = Modifier.fillMaxWidth()
         )
 
-        Spacer(modifier = Modifier.height(16.dp))
-
-        // Açıklama
-        Text(
-            text = "Don't Worry it happens. Please Enter an email or Mobile associated with your account",
-            fontSize = 14.sp,
-            color = Color.Black,
-            lineHeight = 20.sp,
-            modifier = Modifier.fillMaxWidth()
-        )
-
         Spacer(modifier = Modifier.height(24.dp))
 
-        // Email ID or Mobile input
+        // New Password
         TextField(
-            value = emailOrMobile,
-            onValueChange = { emailOrMobile = it },
+            value = newPassword,
+            onValueChange = { newPassword = it },
             placeholder = {
-                Text(text = "Email ID or Mobile", color = Color.Gray)
+                Text(text = "New Password", color = Color.Gray)
             },
             leadingIcon = {
                 Icon(
@@ -123,7 +113,38 @@ fun ForgotPasswordScreen(
                     tint = Color.Gray
                 )
             },
-            visualTransformation = VisualTransformation.None,
+            visualTransformation = PasswordVisualTransformation(),
+            singleLine = true,
+            modifier = Modifier.fillMaxWidth(),
+            colors = TextFieldDefaults.colors(
+                focusedContainerColor = Color.Transparent,
+                unfocusedContainerColor = Color.Transparent,
+                focusedIndicatorColor = Color(0xFF54D1B6),
+                unfocusedIndicatorColor = Color.LightGray,
+                cursorColor = Color(0xFF54D1B6),
+                focusedTextColor = Color.Black,
+                unfocusedTextColor = Color.Black
+            )
+        )
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        // Confirm Password
+        TextField(
+            value = confirmPassword,
+            onValueChange = { confirmPassword = it },
+            placeholder = {
+                Text(text = "Confirm Password", color = Color.Gray)
+            },
+            leadingIcon = {
+                Icon(
+                    modifier = Modifier.size(20.dp),
+                    painter = painterResource(id = R.drawable.work),
+                    contentDescription = null,
+                    tint = Color.Gray
+                )
+            },
+            visualTransformation = PasswordVisualTransformation(),
             singleLine = true,
             modifier = Modifier.fillMaxWidth(),
             colors = TextFieldDefaults.colors(
@@ -139,7 +160,7 @@ fun ForgotPasswordScreen(
 
         Spacer(modifier = Modifier.height(48.dp))
 
-        // Submit butonu
+        // Submitting butonu
         Button(
             onClick = onSubmitClick,
             colors = ButtonDefaults.buttonColors(
@@ -151,7 +172,7 @@ fun ForgotPasswordScreen(
                 .height(52.dp)
         ) {
             Text(
-                text = "Submit",
+                text = "Submitting",
                 fontSize = 16.sp,
                 fontWeight = FontWeight.Bold,
                 color = Color.Black

@@ -61,6 +61,10 @@ class LoginActivity : ComponentActivity() {
                         },
                         onForgotPasswordClick = {
                             startActivity(Intent(this, ForgotPasswordActivity::class.java))
+                        },
+                        onLoginClick = {
+                            startActivity(Intent(this, HomeActivity::class.java))
+                            finish()
                         }
                     )
                 }
@@ -72,7 +76,8 @@ class LoginActivity : ComponentActivity() {
 @Composable
 fun LoginScreen(
     onSignUpClick: () -> Unit = {},
-    onForgotPasswordClick: () -> Unit = {}
+    onForgotPasswordClick: () -> Unit = {},
+    onLoginClick: () -> Unit = {}
 ) {
     Column(
         modifier = Modifier
@@ -135,7 +140,7 @@ fun LoginScreen(
 
         // Login butonu
         Button(
-            onClick = { },
+            onClick = onLoginClick,
             colors = ButtonDefaults.buttonColors(
                 containerColor = Color(0xFF54D1B6)
             ),

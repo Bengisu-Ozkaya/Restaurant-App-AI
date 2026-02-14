@@ -36,6 +36,9 @@ class MainActivity : ComponentActivity() {
                         onLoginClick = {
                             startActivity(Intent(this, LoginActivity::class.java))
                             finish()
+                        },
+                        onContinueClick = {
+                            startActivity(Intent(this, ConfirmActivity::class.java))
                         }
                     )
                 }
@@ -46,7 +49,8 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun SignUpScreen(
-    onLoginClick: () -> Unit = {}
+    onLoginClick: () -> Unit = {},
+    onContinueClick: () -> Unit = {}
 ) {
 
     Column(
@@ -137,7 +141,7 @@ fun SignUpScreen(
 
         // CONTINUE BUTTON
         Button(
-            onClick = { },
+            onClick = onContinueClick,
             colors = ButtonDefaults.buttonColors(
                 containerColor = Color(0xFF54D1B6)
             ),
