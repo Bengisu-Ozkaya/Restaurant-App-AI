@@ -3,8 +3,10 @@ package com.example.restaurantappai
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import android.content.Intent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -30,7 +32,12 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = Color(0xFFF5F5F5)
                 ) {
-                    SignUpScreen()
+                    SignUpScreen(
+                        onLoginClick = {
+                            startActivity(Intent(this, LoginActivity::class.java))
+                            finish()
+                        }
+                    )
                 }
             }
         }
@@ -38,7 +45,9 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun SignUpScreen() {
+fun SignUpScreen(
+    onLoginClick: () -> Unit = {}
+) {
 
     Column(
         modifier = Modifier
@@ -155,7 +164,8 @@ fun SignUpScreen() {
             Text(
                 text = "Login",
                 fontWeight = FontWeight.Bold,
-                color = Color.Black
+                color = Color.Black,
+                modifier = Modifier.clickable(onClick = onLoginClick)
             )
         }
     }
